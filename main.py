@@ -28,7 +28,7 @@ def DisplayAccount():
 def DisplayOneAccount(Cname):
 
     # sql statement
-    sql = "select * from account where Company = %s"
+    sql = "select id, password from account where Company = %s"
 
     # execute command with the company name
     mycursor.execute(sql, (Cname,))
@@ -54,10 +54,12 @@ def AddAccount(company, userId, userPw):
 
 def main():
 
-    numInput = input("Enter 1 to add a new account or Enter 2 to check an account: ")
-    print(numInput)
-    # when 1
-    if(numInput != 2):
+    numInput = input("look, add, or all?: ")
+
+    # adding a new account
+    if(numInput == "add"):
+
+        print("\nAdding a new account: \n")
 
         # get user input to add a new account
         companyInput = input("Company Name: ")
@@ -72,16 +74,19 @@ def main():
         DisplayAccount()
         print("\n")
 
-########fix######
-    # when 2
-    #elif(numInput != 1):
+
+    # looking for id and pw
+    elif(numInput == "look"):
 
         # get company name from user
-     #   cname = input("What is the Company name: ")
+        cname = input("Which account are you looking for?: ")
 
         # Display that account
-      #  DisplayOneAccount(cname)
+        DisplayOneAccount(cname)
 
+    # display all accounts
+    elif(numInput == "all"):
+        DisplayAccount()
 
 main()
 
