@@ -25,39 +25,51 @@ def DisplayAccount():
     for row in result:
         print(row)
 
-def DisplayOneAccount(Cname):
+def DisplayOneAccount(cname):
 
     # sql statement
     sql = "select id, password from account where Company = %s"
 
     # execute command with the company name
-    mycursor.execute(sql, (Cname,))
+    mycursor.execute(sql, (cname,))
 
     # fetch result
     result = mycursor.fetchone()
 
     print(result)
 
-def AddAccount(company, userId, userPw):
+def AddAccount(cname, userId, userPw):
 
     # sql statement
     sql = "insert into account (id, password, company) VALUES (%s, %s, %s)"
 
     # put in values
-    myAccount = (userId, userPw, company)
+    myAccount = (userId, userPw, cname)
 
     # execute sql command
     mycursor.execute(sql, myAccount)
 
     mydb.commit()
-    print("Added a",company,"account")
+    print("Added a",cname,"account")
+
+def DeleteAccount(cname):
+
+    #sql statement
+    sql = "delete from account where Company = %s"
+
+    #execute sql command
+    mycursor.execute(sql, (cname,))
+
+    mydb.commit()
+
+    print("Removed the",cname,"account")
 
 def main():
 
-    numInput = input("look, add, or all?: ")
+    myInput = input("look, add, delete, or all?: ")
 
     # adding a new account
-    if(numInput == "add"):
+    if(myInput == "add"):
 
         print("\nAdding a new account: \n")
 
@@ -76,7 +88,7 @@ def main():
 
 
     # looking for id and pw
-    elif(numInput == "look"):
+    elif(myInput == "look"):
 
         # get company name from user
         cname = input("Which account are you looking for?: ")
@@ -85,7 +97,19 @@ def main():
         DisplayOneAccount(cname)
 
     # display all accounts
-    elif(numInput == "all"):
+    elif(myInput == "all"):
+        DisplayAccount()
+
+    # remove an account
+    elif(myInput == "delete"):
+
+        #get company name input
+        cname = input("Which account do you want to remove?: ")
+
+        #delete
+        DeleteAccount(cname)
+
+        #display all accounts
         DisplayAccount()
 
 main()
